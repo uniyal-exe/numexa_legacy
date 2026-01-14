@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Numexa — Advanced Discord Calculator Bot</title>
+    <meta name="description" content="Numexa — scientific & calculus Discord bot. Fast, accurate, and server-ready." />
+
+    <style>
+        /* ---------- Reset & base ---------- */
+        :root {
+            --bg: #060606;
+            --accent: #f2b705;
+            /* warm yellow */
+            --muted: #9b9b9b;
+            --card: #0f0f0f;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: var(--bg);
+            color: #eee;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            cursor: none;
+            /* hide default cursor — we use custom one */
+        }
+
+        /* ---------- Canvas background fills screen ---------- */
+        #bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            display: block;
+        }
+
+        /* ---------- Layout / nav ---------- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 10;
+            backdrop-filter: blur(6px);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.12));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: inline-grid;
+            place-items: center;
+            background: linear-gradient(135deg, #f7c94a, #f2b705);
+            box-shadow: 0 6px 18px rgba(242, 183, 5, 0.14), inset 0 -6px 12px rgba(0, 0, 0, 0.14);
+            font-weight: 800;
+            color: #1b1b1b;
+            font-size: 20px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style: none
+        }
+
+        nav a {
+            color: #dcdcdc;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.02);
+            color: #fff
+        }
+
+        .invite {
+            background: var(--accent);
+            color: #111;
+            padding: 10px 14px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(242, 183, 5, 0.12);
+            font-weight: 700;
+        }
+
+        /* ---------- Sections ---------- */
+        main {
+            position: relative;
+            z-index: 2
+        }
+
+        .section {
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 40px;
+            align-items: center;
+            padding-top: 140px;
+            min-height: calc(100vh - 120px);
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 56px;
+            line-height: 1;
+            letter-spacing: -1px;
+            color: #fff;
+        }
+
+        .hero h1 .accent {
+            color: var(--accent)
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 16px;
+            margin-top: 14px;
+            max-width: 60ch
+        }
+
+        .hero .cta {
+            margin-top: 20px;
+            display: flex;
+            gap: 14px;
+            align-items: center
+        }
+
+        .btn {
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: inline-block;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            color: #111
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.06)
+        }
+
+        /* pi emblem placeholder */
+        .hero .emblem {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(242, 183, 5, 0.16), transparent 25%), linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.0));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .pi {
+            width: 140px;
+            height: 140px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffd76b, #f2b705);
+            display: grid;
+            place-items: center;
+            font-size: 64px;
+            color: #1b1b1b;
+            font-weight: 900;
+            transform: rotate(-8deg);
+        }
+
+        /* ---------- Features grid ---------- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 8px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(242, 183, 5, 0.07);
+            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.6);
+            transition: transform .28s ease, box-shadow .28s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.7)
+        }
+
+        .card h3 {
+            margin: 0 0 8px 0
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px
+        }
+
+        /* ---------- Commands (horizontal scroll on small screens) ---------- */
+        .commands {
+            display: flex;
+            gap: 12px;
+            overflow: auto;
+            padding-bottom: 8px
+        }
+
+        .command {
+            min-width: 220px;
+            padding: 14px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .command h4 {
+            margin: 0 0 6px 0
+        }
+
+        /* ---------- Counters ---------- */
+        .counters {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            margin-top: 12px
+        }
+
+        .counter {
+            background: var(--glass);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 700
+        }
+
+        /* ---------- FAQ ---------- */
+        .faq .item {
+            background: transparent;
+            border: 1px solid rgba(242, 183, 5, 0.06);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .faq .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .28s ease;
+            padding-top: 0;
+            color: var(--muted)
+        }
+
+        .faq .item.open .answer {
+            padding-top: 12px;
+            max-height: 300px
+        }
+
+        /* footer */
+        footer {
+            padding: 40px 20px;
+            background: transparent;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            color: var(--muted);
+            margin-top: 40px
+        }
+
+        /* small screens */
+        @media (max-width:980px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: left;
+                padding-top: 120px
+            }
+
+            .hero .emblem {
+                justify-self: center
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media (max-width:640px) {
+            nav ul {
+                display: none
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* ---------- Custom cursor element ---------- */
+        .cursor {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(1);
+            transition: transform .12s ease, background-color .12s ease, color .12s ease;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--accent);
+            font-weight: 900;
+            font-size: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+        }
+
+        .cursor.big {
+            transform: translate(-50%, -50%) scale(1.5);
+            background: var(--accent);
+            color: #111;
+        }
+
+        .cursor.small {
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            border-radius: 6px
+        }
+
+        /* subtle focus for keyboard users */
+        a:focus,
+        button:focus {
+            outline: 2px solid rgba(242, 183, 5, 0.12);
+            outline-offset: 2px
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Canvas background -->
+    <canvas id="bg"></canvas>
+
+    <!-- Custom cursor (pi symbol) -->
+    <div id="cursor" class="cursor" aria-hidden="true">π</div>
+
+    <header>
+        <div class="brand" aria-label="Numexa">
+            <div class="logo" aria-hidden="true">π</div>
+            <div>Numexa</div>
+        </div>
+
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#commands">Commands</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#server">Server</a></li>
+                <li><a class="invite" href="#" id="inviteBtn">Invite</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="home" role="main">
+        <section class="section hero">
+            <div>
+                <h1>Your Server’s <span class="accent">Mathematical Brain</span></h1>
+                <p>Run accurate scientific calculations, calculus operations, and utility tools directly inside Discord.
+                    Numexa is crafted for students, devs, and communities that need precise math at the speed of chat.
+                </p>
+
+                <div class="cta">
+                    <a class="btn primary" id="addDiscord">Add to Discord</a>
+                    <a class="btn ghost" href="#features">View Features</a>
+                    <div class="counters" aria-hidden="true" style="margin-left:18px">
+                        <div class="counter" id="counterServers">Servers: <span data-target="872">0</span></div>
+                        <div class="counter">Users: <span data-target="32000">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="emblem" aria-hidden="true">
+                    <div class="pi">π</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="section">
+            <h2 style="text-align:center;margin-bottom:12px">Packed with Powerful Features</h2>
+            <p style="text-align:center;color:var(--muted);margin-bottom:24px">Everything you need to manage and enhance
+                your Discord community — and do math without leaving chat.</p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Scientific Calculator</h3>
+                    <p>Complex arithmetic, trigonometry, constants, and precision math using SymPy on the backend.</p>
+                </div>
+                <div class="card">
+                    <h3>Symbolic Calculus</h3>
+                    <p>Integrals, derivatives, limits — symbolic answers and step-by-step breakdowns.</p>
+                </div>
+                <div class="card">
+                    <h3>Custom Prefix & Slash</h3>
+                    <p>Use traditional prefix commands or modern slash commands with persistent server settings.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Angle Modes</h3>
+                    <p>Toggle DEG/RAD with ease for trig calculations.</p>
+                </div>
+                <div class="card">
+                    <h3>Equation Rendering</h3>
+                    <p>Beautiful LaTeX-ready outputs for copy/paste and embedding in docs.</p>
+                </div>
+                <div class="card">
+                    <h3>Low Latency</h3>
+                    <p>Fast response times with caching and optimized execution for heavy computations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Commands -->
+        <section id="commands" class="section">
+            <h2 style="text-align:center;margin-bottom:12px">Key Commands</h2>
+            <p style="text-align:center;color:var(--muted);margin-bottom:18px">A selection of the most-used commands for
+                quick reference.</p>
+
+            <div class="commands">
+                <div class="command">
+                    <h4>/calc &lt;expression&gt;</h4>
+                    <p>Evaluate a numeric or algebraic expression.</p>
+                </div>
+                <div class="command">
+                    <h4>/integrate &lt;expr&gt;</h4>
+                    <p>Compute a symbolic integral.</p>
+                </div>
+                <div class="command">
+                    <h4>/differentiate &lt;expr&gt;</h4>
+                    <p>Compute derivative.</p>
+                </div>
+                <div class="command">
+                    <h4>/solve &lt;eqn&gt;</h4>
+                    <p>Solve equations or systems.</p>
+                </div>
+                <div class="command">
+                    <h4>/matrix &lt;...&gt;</h4>
+                    <p>Perform matrix operations: inverse, determinant, eigenvalues.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="section faq">
+            <h2 style="text-align:center;margin-bottom:6px">Frequently Asked Questions</h2>
+            <p style="text-align:center;color:var(--muted);margin-bottom:18px">Got questions? We've got answers.</p>
+
+            <div class="item-wrap" style="max-width:820px;margin:0 auto">
+                <div class="item" tabindex="0">
+                    <div>
+                        <strong>How do I add Numexa to my server?</strong>
+                    </div>
+                    <div>▾</div>
+                    <div class="answer">Use the Invite button at the top. Select the server you administer and grant the
+                        requested permissions. .</div>
+                </div>
+
+                <div class="item" tabindex="0">
+                    <div><strong>Is Numexa safe to use?</strong></div>
+                    <div>▾</div>
+                    <div class="answer">Yes — the bot does not store personal messages and only requests permissions
+                        required for operation. Review the permission scopes before inviting.</div>
+                </div>
+
+                <div class="item" tabindex="0">
+                    <div><strong>How do I get support?</strong></div>
+                    <div>▾</div>
+                    <div class="answer">Join our support server (The Devzone) (Link below) to get help, report issues,
+                        or request
+                    </div>
+                </div>
+
+                <div class="item" tabindex="0">
+                    <div><strong>Does Numexa offer premium features?</strong></div>
+                    <div>▾</div>
+                    <div class="answer">Soon..</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Server / CTA -->
+        <section id="server" class="section" style="text-align:center">
+            <h2>Join Our Community</h2>
+            <p style="color:var(--muted);max-width:66ch;margin:10px auto">Need help, want to request features, or track
+                uptime? Join the official Numexa support server — we welcome feedback and contributions.</p>
+
+            <div style="display:flex;gap:14px;justify-content:center;margin-top:18px">
+                <a class="btn primary" id="joinServer">Join Support Server</a>
+                <a class="btn ghost" href="#faq">Read Docs / FAQ</a>
+            </div>
+        </section>
+
+        <footer>
+            <div
+                style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap">
+                <div>
+                    <div style="display:flex;gap:10px;align-items:center">
+                        <div class="logo" style="width:36px;height:36px">π</div><strong>Numexa</strong>
+                    </div>
+                    <div style="color:var(--muted);margin-top:8px;font-size:14px">Copyright © <span id="year"></span>
+                        Numexa. All rights reserved.</div>
+                </div>
+
+                <div style="color:var(--muted)">
+                    <div style="font-weight:700;margin-bottom:6px">Quick Links</div>
+                    <div style="display:flex;gap:12px"><a href="#features">Features</a><a
+                            href="#commands">Commands</a><a href="#faq">FAQ</a></div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        /* ============================
+           Canvas Animated Background
+           - hex grid + particles + drifting π symbols
+           ============================ */
+        (() => {
+            const canvas = document.getElementById('bg');
+            const ctx = canvas.getContext('2d', { alpha: true });
+            let w = canvas.width = innerWidth;
+            let h = canvas.height = innerHeight;
+            const dpi = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(w * dpi);
+            canvas.height = Math.floor(h * dpi);
+            canvas.style.width = w + 'px';
+            canvas.style.height = h + 'px';
+            ctx.scale(dpi, dpi);
+
+            // config
+            const hexSize = 48; // base hex size
+            const hexColor = 'rgba(255,255,255,0.03)';
+            const accent = '#f2b705';
+
+            // grid offset animation
+            let t = 0;
+
+            // particles
+            const particles = [];
+            const PI_ITEMS = [];
+
+            function rand(a, b) { return a + Math.random() * (b - a); }
+
+            // create some particles
+            for (let i = 0; i < 80; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: rand(-0.2, 0.2),
+                    vy: rand(-0.2, 0.2),
+                    r: rand(0.6, 1.8),
+                    alpha: rand(0.08, 0.28)
+                });
+            }
+
+            // create infrequent drifting π symbols
+            function spawnPI() {
+                PI_ITEMS.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vy: rand(-0.15, -0.5),
+                    alpha: 1,
+                    size: rand(12, 28),
+                    life: rand(2400, 4200),
+                    born: Date.now()
+                });
+                // cap number
+                if (PI_ITEMS.length > 8) PI_ITEMS.shift();
+            }
+            setInterval(spawnPI, 2600);
+
+            // draw hex grid function
+            function drawHexGrid(offsetX, offsetY) {
+                const s = hexSize;
+                const r = s * Math.sin(Math.PI / 3);
+                ctx.strokeStyle = hexColor;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                const cols = Math.ceil(w / (s * 1.5)) + 6;
+                const rows = Math.ceil(h / (r * 2)) + 6;
+                for (let col = -3; col < cols; col++) {
+                    for (let row = -3; row < rows; row++) {
+                        const x = col * (s * 1.5) + offsetX % (s * 1.5);
+                        const y = row * (r * 2) + ((col % 2) ? r : 0) + offsetY % (r * 2);
+                        hexPath(x, y, s);
+                    }
+                }
+                ctx.stroke();
+            }
+            function hexPath(cx, cy, s) {
+                for (let i = 0; i < 6; i++) {
+                    const ang = (Math.PI / 3) * i + Math.PI / 6;
+                    const x = cx + Math.cos(ang) * s;
+                    const y = cy + Math.sin(ang) * s;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+            }
+
+            // animate
+            let mouse = { x: w / 2, y: h / 2 };
+            addEventListener('resize', () => {
+                w = canvas.width = innerWidth;
+                h = canvas.height = innerHeight;
+                canvas.width = Math.floor(w * dpi);
+                canvas.height = Math.floor(h * dpi);
+                canvas.style.width = w + 'px';
+                canvas.style.height = h + 'px';
+                ctx.scale(dpi, dpi);
+            });
+
+            addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY });
+
+            function frame() {
+                t += 0.008;
+                ctx.clearRect(0, 0, w, h);
+
+                // dark overlay
+                ctx.fillStyle = '#060606';
+                ctx.fillRect(0, 0, w, h);
+
+                // hex grid (slight parallax offset using sin)
+                const ox = Math.sin(t * 0.8) * 18;
+                const oy = Math.cos(t * 0.6) * 12;
+                ctx.save();
+                ctx.globalCompositeOperation = 'lighter';
+                drawHexGrid(ox, oy);
+                ctx.restore();
+
+                // particles (connect close ones)
+                for (let p of particles) {
+                    // attraction to mouse lightly
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const dist = Math.hypot(dx, dy);
+                    if (dist < 160) {
+                        p.vx += dx / (dist + 20) * 0.0009;
+                        p.vy += dy / (dist + 20) * 0.0009;
+                    }
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // wrap edges
+                    if (p.x < -10) p.x = w + 10;
+                    if (p.y < -10) p.y = h + 10;
+                    if (p.x > w + 10) p.x = -10;
+                    if (p.y > h + 10) p.y = -10;
+                }
+                // draw particle points & connections
+                for (let i = 0; i < particles.length; i++) {
+                    const a = particles[i];
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const b = particles[j];
+                        const d = Math.hypot(a.x - b.x, a.y - b.y);
+                        if (d < 96) {
+                            ctx.strokeStyle = 'rgba(242,183,5,' + (0.06 * (1 - d / 96)) + ')';
+                            ctx.lineWidth = 0.6 * (1 - d / 96);
+                            ctx.beginPath();
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.stroke();
+                        }
+                    }
+                    ctx.fillStyle = 'rgba(255,255,255,' + (0.05 + a.alpha) + ')';
+                    ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+                }
+
+                // drifting pi symbols
+                const now = Date.now();
+                for (let i = PI_ITEMS.length - 1; i >= 0; i--) {
+                    const pi = PI_ITEMS[i];
+                    const age = now - pi.born;
+                    const life = pi.life;
+                    const progress = age / life;
+                    pi.y += pi.vy;
+                    pi.alpha = 1 - progress;
+                    ctx.globalAlpha = pi.alpha * 0.9;
+                    ctx.font = `${pi.size}px system-ui`;
+                    ctx.fillStyle = (Math.random() > 0.65) ? accent : 'rgba(255,255,255,0.08)';
+                    ctx.fillText('π', pi.x, pi.y);
+                    ctx.globalAlpha = 1;
+                    if (progress >= 1) PI_ITEMS.splice(i, 1);
+                }
+
+                // subtle central halo
+                const grad = ctx.createRadialGradient(w * 0.72, h * 0.38, 60, w * 0.72, h * 0.38, 520);
+                grad.addColorStop(0, 'rgba(242,183,5,0.06)');
+                grad.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, w, h);
+
+                requestAnimationFrame(frame);
+            }
+            frame();
+        })();
+
+        /* ============================
+           Custom cursor (π) that follows mouse
+           - scales on hover of interactive elements
+           ============================ */
+        (() => {
+            const cur = document.getElementById('cursor');
+            let mx = innerWidth / 2, my = innerHeight / 2;
+            let tx = mx, ty = my;
+
+            // follow with some smoothing
+            addEventListener('mousemove', (e) => {
+                mx = e.clientX; my = e.clientY;
+                cur.classList.remove('small');
+            });
+
+            // when pointer leaves window, shrink cursor
+            addEventListener('mouseleave', () => { cur.classList.add('small') });
+
+            // enlarge cursor on hover for interactive elements
+            const interactiveSelector = 'a,button,.card,.command,.item';
+            function setHoverListeners() {
+                document.querySelectorAll(interactiveSelector).forEach(el => {
+                    el.addEventListener('mouseenter', () => cur.classList.add('big'));
+                    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+                });
+            }
+            setHoverListeners();
+            // dynamic elements (e.g., items added later)
+            const obs = new MutationObserver(setHoverListeners);
+            obs.observe(document.body, { childList: true, subtree: true });
+
+            function loop() {
+                tx += (mx - tx) * 0.18;
+                ty += (my - ty) * 0.18;
+                cur.style.left = tx + 'px';
+                cur.style.top = ty + 'px';
+                requestAnimationFrame(loop);
+            }
+            loop();
+        })();
+
+        /* ============================
+           Interactions: counters, faq, smooth scroll, CTA
+           ============================ */
+        (() => {
+            // year
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    const href = a.getAttribute('href');
+                    if (href === '#') return;
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            // counters animation
+            function animateCounter(el, target, duration = 1200) {
+                const start = 0, range = target - start;
+                let startTime = null;
+                function step(ts) {
+                    if (!startTime) startTime = ts;
+                    const progress = Math.min((ts - startTime) / duration, 1);
+                    const cur = Math.floor(start + range * easeOutCubic(progress));
+                    el.textContent = cur.toLocaleString();
+                    if (progress < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+            }
+            function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+            document.querySelectorAll('.counter span[data-target]').forEach(sp => {
+                const target = +sp.getAttribute('data-target');
+                animateCounter(sp, target, 1400);
+            });
+
+            // FAQ accordion
+            document.querySelectorAll('.faq .item').forEach(it => {
+                // convert markup: we placed answer as sibling; restructure for JS
+                const answerNode = it.querySelector('.answer');
+                if (!answerNode) {
+                    // find text node for answer (the markup earlier had answer inside same .item)
+                    // fallback: nothing
+                    return;
+                }
+                it.addEventListener('click', () => it.classList.toggle('open'));
+                it.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); it.classList.toggle('open'); } });
+            });
+
+            // Invite / CTA behavior (placeholders — update with real links)
+            document.getElementById('inviteBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                // placeholder demo behavior:
+                alert('Replace the invite link with your OAuth2 invite URL.');
+            });
+            document.getElementById('addDiscord').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('https://discord.com/oauth2/authorize?client_id=1460289617264775333&permissions=5629501681765440&integration_type=0&scope=applications.commands+bot');
+            });
+            document.getElementById('joinServer').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('https://discord.gg/SmSx4uvVCD');
+            });
+        })();
+
+    </script>
+</body>
+
+</html>
