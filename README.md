@@ -1,49 +1,64 @@
 🧮 Numexa Website
+
 Official Landing Page for Numexa — Advanced Discord Calculator Bot
 
-A modern, animated, math-themed landing page built to promote Numexa, an advanced Discord calculator bot supporting scientific math, calculus, and symbolic computation — all inside Discord.
+A modern, animated, math-themed landing page built to promote Numexa, an advanced Discord calculator bot that supports scientific math, calculus, and symbolic computation — all directly inside Discord.
 
 🌐 Live Demo
 
-(Deployed on Netlify)
+🚀 Deployed on Netlify
 🔗 https://numexa.netlify.app
- (example — replace with your actual URL)
 
 ✨ Features
+🎨 Design & UI
 
-🎨 Modern Green Math Theme
+Modern green math-inspired theme
+
+Fully responsive (desktop, tablet, mobile)
+
+Smooth scrolling navigation
+
+Glow effects on key UI elements
 
 🧠 Animated Math Background
 
-Grid & axes
+Cartesian grid with axes
 
-Sine wave & parabola
+Animated sine wave and parabola
 
-Floating math symbols (π, ∑, ∫, √, ∞)
+Floating math symbols: π, ∑, ∫, √, ∞
 
-🖱️ Custom Cursor (π Symbol)
+🖱️ Interactions
 
-🌟 Glow Effects on Key Elements
+Custom π cursor
 
-📱 Fully Responsive Design
+Interactive FAQ accordion
 
-📌 Smooth Scroll Navigation
+Smooth hover animations
 
-❓ Interactive FAQ Accordion
+🚀 Performance
 
-🚀 Direct Discord OAuth Invite Button
+No frameworks
 
-🧩 No Frameworks — Pure HTML, CSS & JavaScript
+Pure HTML, CSS, and JavaScript
 
-🤖 About Numexa (Bot)
+Lightweight and fast loading
+
+🔗 Integration
+
+Direct Discord OAuth invite button
+
+Links to support server and documentation
+
+🤖 About Numexa (Discord Bot)
 
 Numexa is a powerful Discord calculator bot designed for:
 
-Students
+🎓 Students
 
-Developers
+👨‍💻 Developers
 
-Math-focused communities
+📐 Math-focused communities
 
 Core Bot Capabilities
 
@@ -57,33 +72,17 @@ DEG / RAD angle modes
 
 Slash commands & custom prefixes
 
-Fast responses using SymPy
+Fast and accurate results powered by SymPy
 
 🔗 Useful Links
-
 🔹 Invite Numexa Bot
+
 https://discord.com/oauth2/authorize?client_id=1460289617264775333&permissions=5629501681765440&scope=bot+applications.commands
 
 🔹 Support Server
+
 https://discord.gg/SmSx4uvVCD
 
-📜 License
+🔹 GitHub Repository
 
-This project is licensed under the MIT License.
-You are free to modify and use it for personal or commercial purposes.
-
-👤 Author
-
-Aditya Uniyal
-Discord Bot Developer | Web Designer
-GitHub: @Coder-Aditya-Uniyal
-
-⭐ Support the Project
-
-If you like this project:
-
-⭐ Star the repository
-
-🤖 Invite Numexa to your server
-
-💬 Share feedback & suggestions
+https://github.com/Coder-Aditya-Uniyal/Numexa_website
