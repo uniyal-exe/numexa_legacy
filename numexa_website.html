@@ -7,16 +7,27 @@
     <title>Numexa — Advanced Discord Calculator Bot</title>
     <meta name="description" content="Numexa — scientific & calculus Discord bot. Fast, accurate, and server-ready." />
 
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
     <style>
         /* ---------- Reset & base ---------- */
         :root {
             --bg: #060606;
-            --accent: #f2b705;
-            /* warm yellow */
+            --accent: #22c55e;
+            /* light green */
+            --accent-hover: #16a34a;
             --muted: #9b9b9b;
             --card: #0f0f0f;
             --glass: rgba(255, 255, 255, 0.03);
+            --glow-soft: 0 0 12px rgba(34, 197, 94, 0.25);
+            --glow-mid: 0 0 24px rgba(34, 197, 94, 0.35);
+            --glow-strong: 0 0 40px rgba(34, 197, 94, 0.45);
+
         }
+
 
         * {
             box-sizing: border-box
@@ -78,8 +89,9 @@
             border-radius: 6px;
             display: inline-grid;
             place-items: center;
-            background: linear-gradient(135deg, #f7c94a, #f2b705);
-            box-shadow: 0 6px 18px rgba(242, 183, 5, 0.14), inset 0 -6px 12px rgba(0, 0, 0, 0.14);
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            box-shadow: 0 6px 18px rgba(34, 197, 94, 0.25),
+                inset 0 -6px 12px rgba(0, 0, 0, 0.14);
             font-weight: 800;
             color: #1b1b1b;
             font-size: 20px;
@@ -113,9 +125,10 @@
             color: #111;
             padding: 10px 14px;
             border-radius: 10px;
-            box-shadow: 0 6px 18px rgba(242, 183, 5, 0.12);
+            box-shadow: 0 6px 18px rgba(34, 197, 94, 0.25);
             font-weight: 700;
         }
+
 
         /* ---------- Sections ---------- */
         main {
@@ -184,28 +197,45 @@
             border: 1px solid rgba(255, 255, 255, 0.06)
         }
 
+        .btn.primary:hover,
+        .invite:hover {
+            box-shadow: var(--glow-mid);
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+
+
         /* pi emblem placeholder */
         .hero .emblem {
             width: 320px;
             height: 320px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(242, 183, 5, 0.16), transparent 25%), linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.0));
+            background: radial-gradient(circle at 30% 30%,
+                    rgba(34, 197, 94, 0.22),
+                    transparent 30%),
+                linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.025),
+                    rgba(255, 255, 255, 0));
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            box-shadow:
+                var(--glow-strong),
+                0 30px 80px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
+
 
         .pi {
             width: 140px;
             height: 140px;
             border-radius: 18px;
-            background: linear-gradient(180deg, #ffd76b, #f2b705);
+            background: linear-gradient(180deg, #4ade80, #22c55e);
             display: grid;
             place-items: center;
             font-size: 64px;
-            color: #1b1b1b;
+            color: #0f172a;
             font-weight: 900;
             transform: rotate(-8deg);
         }
@@ -222,7 +252,7 @@
             background: var(--card);
             border-radius: 12px;
             padding: 20px;
-            border: 1px solid rgba(242, 183, 5, 0.07);
+            border: 1px solid rgba(34, 197, 94, 0.18);
             box-shadow: 0 6px 28px rgba(0, 0, 0, 0.6);
             transition: transform .28s ease, box-shadow .28s ease;
         }
@@ -303,6 +333,62 @@
             max-height: 300px
         }
 
+        .faq-list {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .faq-item {
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            color: var(--muted);
+            transition: max-height 0.35s ease, padding 0.35s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 14px 20px 20px;
+        }
+
+        .arrow {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .arrow {
+            transform: rotate(180deg);
+        }
+
+
         /* footer */
         footer {
             padding: 40px 20px;
@@ -378,8 +464,19 @@
         /* subtle focus for keyboard users */
         a:focus,
         button:focus {
-            outline: 2px solid rgba(242, 183, 5, 0.12);
-            outline-offset: 2px
+            outline: 2px solid rgba(34, 197, 94, 0.35);
+        }
+
+
+        .hero-logo {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            transform: rotate(-8deg);
+            filter:
+                drop-shadow(0 0 22px rgba(34, 197, 94, 0.45)) drop-shadow(0 12px 32px rgba(0, 0, 0, 0.7));
+
+
         }
     </style>
 </head>
@@ -394,7 +491,9 @@
 
     <header>
         <div class="brand" aria-label="Numexa">
-            <div class="logo" aria-hidden="true">π</div>
+            <div class="logo">
+                <img src="logo.png" alt="Numexa Logo" style="width:20px;height:20px;" />
+            </div>
             <div>Numexa</div>
         </div>
 
@@ -405,7 +504,14 @@
                 <li><a href="#commands">Commands</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#server">Server</a></li>
-                <li><a class="invite" href="#" id="inviteBtn">Invite</a></li>
+                <li>
+                    <a class="invite"
+                        href="https://discord.com/oauth2/authorize?client_id=1460289617264775333&permissions=5629501681765440&integration_type=0&scope=applications.commands+bot"
+                        target="_blank" rel="noopener">
+                        Invite
+                    </a>
+                </li>
+
             </ul>
         </nav>
     </header>
@@ -419,20 +525,26 @@
                 </p>
 
                 <div class="cta">
-                    <a class="btn primary" id="addDiscord">Add to Discord</a>
+                    <a class="btn primary"
+                        href="https://discord.com/oauth2/authorize?client_id=1460289617264775333&permissions=5629501681765440&integration_type=0&scope=applications.commands+bot"
+                        target="_blank" rel="noopener">
+                        Add to Discord
+                    </a>
                     <a class="btn ghost" href="#features">View Features</a>
                     <div class="counters" aria-hidden="true" style="margin-left:18px">
-                        <div class="counter" id="counterServers">Servers: <span data-target="872">0</span></div>
-                        <div class="counter">Users: <span data-target="32000">0</span></div>
+                        <div class="counter">Servers: <span>Soon</span></div>
+                        <div class="counter">Users: <span>Counting</span></div>
+
                     </div>
                 </div>
             </div>
 
             <div class="hero-right">
                 <div class="emblem" aria-hidden="true">
-                    <div class="pi">π</div>
+                    <img src="logo.png" alt="Numexa Logo" class="hero-logo" />
                 </div>
             </div>
+
         </section>
 
         <!-- Features -->
@@ -459,10 +571,7 @@
                     <h3>Angle Modes</h3>
                     <p>Toggle DEG/RAD with ease for trig calculations.</p>
                 </div>
-                <div class="card">
-                    <h3>Equation Rendering</h3>
-                    <p>Beautiful LaTeX-ready outputs for copy/paste and embedding in docs.</p>
-                </div>
+
                 <div class="card">
                     <h3>Low Latency</h3>
                     <p>Fast response times with caching and optimized execution for heavy computations.</p>
@@ -493,47 +602,58 @@
                     <h4>/solve &lt;eqn&gt;</h4>
                     <p>Solve equations or systems.</p>
                 </div>
-                <div class="command">
-                    <h4>/matrix &lt;...&gt;</h4>
-                    <p>Perform matrix operations: inverse, determinant, eigenvalues.</p>
-                </div>
+
             </div>
         </section>
 
         <!-- FAQ -->
         <section id="faq" class="section faq">
             <h2 style="text-align:center;margin-bottom:6px">Frequently Asked Questions</h2>
-            <p style="text-align:center;color:var(--muted);margin-bottom:18px">Got questions? We've got answers.</p>
+            <p style="text-align:center;color:var(--muted);margin-bottom:24px">
+                Got questions? We've got answers.
+            </p>
 
-            <div class="item-wrap" style="max-width:820px;margin:0 auto">
-                <div class="item" tabindex="0">
-                    <div>
-                        <strong>How do I add Numexa to my server?</strong>
-                    </div>
-                    <div>▾</div>
-                    <div class="answer">Use the Invite button at the top. Select the server you administer and grant the
-                        requested permissions. .</div>
-                </div>
-
-                <div class="item" tabindex="0">
-                    <div><strong>Is Numexa safe to use?</strong></div>
-                    <div>▾</div>
-                    <div class="answer">Yes — the bot does not store personal messages and only requests permissions
-                        required for operation. Review the permission scopes before inviting.</div>
-                </div>
-
-                <div class="item" tabindex="0">
-                    <div><strong>How do I get support?</strong></div>
-                    <div>▾</div>
-                    <div class="answer">Join our support server (The Devzone) (Link below) to get help, report issues,
-                        or request
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I add Numexa to my server?
+                        <span class="arrow">⌄</span>
+                    </button>
+                    <div class="faq-answer">
+                        Use the Invite button at the top of the page. Select the server you administer and grant the
+                        requested permissions.
                     </div>
                 </div>
 
-                <div class="item" tabindex="0">
-                    <div><strong>Does Numexa offer premium features?</strong></div>
-                    <div>▾</div>
-                    <div class="answer">Soon..</div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is Numexa safe to use?
+                        <span class="arrow">⌄</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes — Numexa does not store personal messages and only requests permissions required for
+                        operation.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I get support?
+                        <span class="arrow">⌄</span>
+                    </button>
+                    <div class="faq-answer">
+                        Join our official support server to get help, report issues, or request new features.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Does Numexa offer premium features?
+                        <span class="arrow">⌄</span>
+                    </button>
+                    <div class="faq-answer">
+                        Premium features are planned and will be announced soon.
+                    </div>
                 </div>
             </div>
         </section>
@@ -545,7 +665,10 @@
                 uptime? Join the official Numexa support server — we welcome feedback and contributions.</p>
 
             <div style="display:flex;gap:14px;justify-content:center;margin-top:18px">
-                <a class="btn primary" id="joinServer">Join Support Server</a>
+                <a class="btn primary" href="https://discord.gg/SmSx4uvVCD" target="_blank" rel="noopener">
+                    Join Support Server
+                </a>
+
                 <a class="btn ghost" href="#faq">Read Docs / FAQ</a>
             </div>
         </section>
@@ -555,7 +678,10 @@
                 style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap">
                 <div>
                     <div style="display:flex;gap:10px;align-items:center">
-                        <div class="logo" style="width:36px;height:36px">π</div><strong>Numexa</strong>
+                        <div class="logo">
+                            <img src="logo.png" alt="Numexa Logo" style="width:20px;height:20px;" />
+                        </div>
+                        <strong>Numexa</strong>
                     </div>
                     <div style="color:var(--muted);margin-top:8px;font-size:14px">Copyright © <span id="year"></span>
                         Numexa. All rights reserved.</div>
@@ -590,7 +716,7 @@
             // config
             const hexSize = 48; // base hex size
             const hexColor = 'rgba(255,255,255,0.03)';
-            const accent = '#f2b705';
+            const accent = '#22c55e';
 
             // grid offset animation
             let t = 0;
@@ -613,40 +739,77 @@
                 });
             }
 
-            // create infrequent drifting π symbols
-            function spawnPI() {
+
+            const symbols = ['π', '∑', '√', '∫', '∞'];
+
+            function spawnMathSymbol() {
                 PI_ITEMS.push({
                     x: Math.random() * w,
-                    y: Math.random() * h,
-                    vy: rand(-0.15, -0.5),
+                    y: h + 40,
+                    vy: -0.4,
                     alpha: 1,
-                    size: rand(12, 28),
-                    life: rand(2400, 4200),
+                    size: rand(14, 26),
+                    char: symbols[Math.floor(Math.random() * symbols.length)],
+                    life: rand(3000, 5000),
                     born: Date.now()
                 });
-                // cap number
+
                 if (PI_ITEMS.length > 8) PI_ITEMS.shift();
             }
-            setInterval(spawnPI, 2600);
 
-            // draw hex grid function
-            function drawHexGrid(offsetX, offsetY) {
-                const s = hexSize;
-                const r = s * Math.sin(Math.PI / 3);
-                ctx.strokeStyle = hexColor;
+            setInterval(spawnMathSymbol, 2200);
+
+
+            // draw math grid function
+            function drawMathGrid() {
+                const spacing = 48;
+                ctx.strokeStyle = 'rgba(34,197,94,0.06)';
                 ctx.lineWidth = 1;
+
                 ctx.beginPath();
-                const cols = Math.ceil(w / (s * 1.5)) + 6;
-                const rows = Math.ceil(h / (r * 2)) + 6;
-                for (let col = -3; col < cols; col++) {
-                    for (let row = -3; row < rows; row++) {
-                        const x = col * (s * 1.5) + offsetX % (s * 1.5);
-                        const y = row * (r * 2) + ((col % 2) ? r : 0) + offsetY % (r * 2);
-                        hexPath(x, y, s);
-                    }
+                for (let x = 0; x < w; x += spacing) {
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                }
+                for (let y = 0; y < h; y += spacing) {
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                }
+                ctx.stroke();
+
+                // axes (slightly brighter)
+                ctx.strokeStyle = 'rgba(34,197,94,0.12)';
+                ctx.beginPath();
+                ctx.moveTo(w / 2, 0);
+                ctx.lineTo(w / 2, h);
+                ctx.moveTo(0, h / 2);
+                ctx.lineTo(w, h / 2);
+                ctx.stroke();
+            }
+
+            function drawFunctionCurves() {
+                ctx.strokeStyle = 'rgba(34,197,94,0.25)';
+                ctx.lineWidth = 2;
+
+                // Sine wave
+                ctx.beginPath();
+                for (let x = 0; x < w; x++) {
+                    const y = h / 2 + Math.sin(x * 0.02) * 80;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Parabola
+                ctx.beginPath();
+                for (let x = -w / 2; x < w / 2; x++) {
+                    const y = 0.002 * x * x + h * 0.2;
+                    ctx.lineTo(x + w / 2, y);
                 }
                 ctx.stroke();
             }
+
+
             function hexPath(cx, cy, s) {
                 for (let i = 0; i < 6; i++) {
                     const ang = (Math.PI / 3) * i + Math.PI / 6;
@@ -681,12 +844,8 @@
                 ctx.fillRect(0, 0, w, h);
 
                 // hex grid (slight parallax offset using sin)
-                const ox = Math.sin(t * 0.8) * 18;
-                const oy = Math.cos(t * 0.6) * 12;
-                ctx.save();
-                ctx.globalCompositeOperation = 'lighter';
-                drawHexGrid(ox, oy);
-                ctx.restore();
+                drawMathGrid();
+                drawFunctionCurves();
 
                 // particles (connect close ones)
                 for (let p of particles) {
@@ -714,7 +873,7 @@
                         const b = particles[j];
                         const d = Math.hypot(a.x - b.x, a.y - b.y);
                         if (d < 96) {
-                            ctx.strokeStyle = 'rgba(242,183,5,' + (0.06 * (1 - d / 96)) + ')';
+                            ctx.strokeStyle = 'rgba(34,197,94,' + (0.08 * (1 - d / 96)) + ')';
                             ctx.lineWidth = 0.6 * (1 - d / 96);
                             ctx.beginPath();
                             ctx.moveTo(a.x, a.y);
@@ -738,22 +897,32 @@
                     ctx.globalAlpha = pi.alpha * 0.9;
                     ctx.font = `${pi.size}px system-ui`;
                     ctx.fillStyle = (Math.random() > 0.65) ? accent : 'rgba(255,255,255,0.08)';
-                    ctx.fillText('π', pi.x, pi.y);
+                    ctx.fillText(pi.char, pi.x, pi.y);
                     ctx.globalAlpha = 1;
                     if (progress >= 1) PI_ITEMS.splice(i, 1);
                 }
 
                 // subtle central halo
                 const grad = ctx.createRadialGradient(w * 0.72, h * 0.38, 60, w * 0.72, h * 0.38, 520);
-                grad.addColorStop(0, 'rgba(242,183,5,0.06)');
+                grad.addColorStop(0, 'rgba(34,197,94,0.08)');
                 grad.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, w, h);
 
                 requestAnimationFrame(frame);
+
+
             }
             frame();
         })();
+
+        // FAQ accordion toggle (RUN ONCE, NOT PER FRAME)
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.parentElement.classList.toggle('open');
+            });
+        });
+
 
         /* ============================
            Custom cursor (π) that follows mouse
@@ -833,33 +1002,9 @@
                 animateCounter(sp, target, 1400);
             });
 
-            // FAQ accordion
-            document.querySelectorAll('.faq .item').forEach(it => {
-                // convert markup: we placed answer as sibling; restructure for JS
-                const answerNode = it.querySelector('.answer');
-                if (!answerNode) {
-                    // find text node for answer (the markup earlier had answer inside same .item)
-                    // fallback: nothing
-                    return;
-                }
-                it.addEventListener('click', () => it.classList.toggle('open'));
-                it.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); it.classList.toggle('open'); } });
-            });
 
-            // Invite / CTA behavior (placeholders — update with real links)
-            document.getElementById('inviteBtn').addEventListener('click', (e) => {
-                e.preventDefault();
-                // placeholder demo behavior:
-                alert('Replace the invite link with your OAuth2 invite URL.');
-            });
-            document.getElementById('addDiscord').addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('https://discord.com/oauth2/authorize?client_id=1460289617264775333&permissions=5629501681765440&integration_type=0&scope=applications.commands+bot');
-            });
-            document.getElementById('joinServer').addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('https://discord.gg/SmSx4uvVCD');
-            });
+
+
         })();
 
     </script>
