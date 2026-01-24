@@ -1,88 +1,27 @@
-🧮 Numexa Website
+Numexa — Legacy (Archived)
 
-Official Landing Page for Numexa — Advanced Discord Calculator Bot
+Status: Archived — preserved for reference and historical content.
 
-A modern, animated, math-themed landing page built to promote Numexa, an advanced Discord calculator bot that supports scientific math, calculus, and symbolic computation — all directly inside Discord.
+This repository contains the legacy (old) Numexa website — a static site built using HTML, CSS and vanilla JavaScript. The content is preserved for history, reference, and to provide assets for migration to the new site.
 
-🌐 Live Demo
+Contents
 
-🚀 Deployed on Netlify
-🔗 https://numexa.netlify.app
+/ — static site files (index.html, about.html, assets/, css/, js/)
 
-✨ Features
-🎨 Design & UI
+/assets — images, icons, fonts used on the legacy site
 
-Modern green math-inspired theme
+Features (legacy)
 
-Fully responsive (desktop, tablet, mobile)
+Static responsive layout
 
-Smooth scrolling navigation
+Basic contact form (client-side)
 
-Glow effects on key UI elements
+Lightweight, zero backend dependencies
 
-🧠 Animated Math Background
+Optimized images for older design
 
-Cartesian grid with axes
+Tech stack
 
-Animated sine wave and parabola
+HTML5, CSS3, JavaScript (ES5/ES6)
 
-Floating math symbols: π, ∑, ∫, √, ∞
-
-🖱️ Interactions
-
-Custom π cursor
-
-Interactive FAQ accordion
-
-Smooth hover animations
-
-🚀 Performance
-
-No frameworks
-
-Pure HTML, CSS, and JavaScript
-
-Lightweight and fast loading
-
-🔗 Integration
-
-Direct Discord OAuth invite button
-
-Links to support server and documentation
-
-🤖 About Numexa (Discord Bot)
-
-Numexa is a powerful Discord calculator bot designed for:
-
-🎓 Students
-
-👨‍💻 Developers
-
-📐 Math-focused communities
-
-Core Bot Capabilities
-
-Scientific calculations
-
-Symbolic calculus (integration & differentiation)
-
-Equation solving
-
-DEG / RAD angle modes
-
-Slash commands & custom prefixes
-
-Fast and accurate results powered by SymPy
-
-🔗 Useful Links
-🔹 Invite Numexa Bot
-
-https://discord.com/oauth2/authorize?client_id=1460289617264775333&permissions=5629501681765440&scope=bot+applications.commands
-
-🔹 Support Server
-
-https://discord.gg/SmSx4uvVCD
-
-🔹 GitHub Repository
-
-https://github.com/Coder-Aditya-Uniyal/Numexa_website
+No build step — simple static deployment
